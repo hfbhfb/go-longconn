@@ -4,9 +4,12 @@
 
 
 # 测试
+```sh
+
 curl localhost/long/16
 curl localhost/long/32
 curl localhost
+```
 
 
 # 构建
