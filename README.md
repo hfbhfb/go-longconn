@@ -11,6 +11,8 @@ curl localhost/long/32
 curl localhost
 ```
 
+# 测试镜像 swr.cn-north-4.myhuaweicloud.com/hfbbg4/longconn:v0.1
+
 
 # 构建
 
