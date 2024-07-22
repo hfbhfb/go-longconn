@@ -5,4 +5,7 @@ Version=v0.2
 
 all:
 	docker build --build-arg TARGETARCH=amd64 --platform linux/amd64 -t ${Regin}/${Org}/${AppName}:${Version} --no-cache .
+	echo "docker push ${Regin}/${Org}/${AppName}:${Version}"
 
+test1:
+	echo "docker push ${Regin}/${Org}/${AppName}:${Version}"
