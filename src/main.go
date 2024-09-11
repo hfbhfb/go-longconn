@@ -69,7 +69,41 @@ func FnlongWaitAll(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(time.Second)
 
 	}
-	fmt.Fprintf(w, "all: %v  . current: %v\n", count, i)
+	fmt.Fprintf(w, "all: Second %v  . current: %v\n", count, i)
+	flusher.Flush() // Flush the buffer to the client
+
+}
+
+func Fnlong100Millisecond(w http.ResponseWriter, r *http.Request) {
+	flusher, ok := w.(http.Flusher)
+	if !ok {
+		http.Error(w, "Streaming unsupported!", http.StatusInternalServerError)
+		return
+	}
+
+	// Set the content type to text/event-stream
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+
+	vars := mux.Vars(r)
+	name := vars["name"]
+	i := 0
+	count, _ := strconv.Atoi(name)
+	for {
+		i++
+		// fmt.Fprintf(w, "all: %v  . current: %v\n", count, i)
+		// flusher.Flush() // Flush the buffer to the client
+		if i > count {
+			break
+
+		}
+		// fmt.Fprintf(w, " %v\n", i)
+
+		time.Sleep(time.Millisecond * 100)
+
+	}
+	fmt.Fprintf(w, "vb all Millisecond: %v  . current: %v\n", count, i)
 	flusher.Flush() // Flush the buffer to the client
 
 }
@@ -80,6 +114,7 @@ func main() {
 	r.HandleFunc("/long/{name}", Fnlong).Methods("GET")
 	r.HandleFunc("/longconn/{name}", Fnlong).Methods("GET")
 	r.HandleFunc("/wait/{name}", FnlongWaitAll).Methods("GET")
+	r.HandleFunc("/waitmill/{name}", Fnlong100Millisecond).Methods("GET") // 100毫秒为单位计算
 
 	http.Handle("/", r)
 	fmt.Println("Starting server on :80")

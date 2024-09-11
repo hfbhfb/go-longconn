@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: forlongtest
+  name: forlongtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: forlongtest
+  template:
+    metadata:
+      labels:
+        app: forlongtest
+    spec:
+      containers:
+      - name: forlongtest
+        image: swr.cn-north-4.myhuaweicloud.com/hfbbg4/longconn:v0.5
+        imagePullPolicy: IfNotPresent
+      terminationGracePeriodSeconds: 5 # 优雅退出时间,默认为30秒

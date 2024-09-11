@@ -9,8 +9,8 @@ WORKDIR /app
 COPY go.mod go.sum ./
 
 # 设置代理环境变量以用于构建阶段
-ENV http_proxy http://192.168.113.12:7890
-ENV https_proxy http://192.168.113.12:7890
+# ENV http_proxy http://192.168.113.12:7890
+# ENV https_proxy http://192.168.113.12:7890
 ENV GOPROXY https://goproxy.cn,direct
 
 # Download dependencies
@@ -29,7 +29,7 @@ FROM alpine:latest
 COPY --from=builder /app/main /main
 
 # Expose port 8080 to the outside world
-EXPOSE 8080
+EXPOSE 80
 
 # Command to run the executable
 CMD ["/main"]
